@@ -111,9 +111,9 @@ async def predict_endpoint(request: PredictRequest):
         x_timestamp=x_timestamp,
         y_timestamp=y_timestamp,
         pred_len=pred_len,
-        T=1.0,
-        top_p=0.9,
-        sample_count=1,
+        T=0.2,
+        top_p=0.95,
+        sample_count=5,
         verbose=True
     )
 
