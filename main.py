@@ -78,7 +78,7 @@ async def predict_endpoint(request: PredictRequest):
     # lookback 等于请求中数据的长度
     lookback = len(df)
 
-    if lookback < 240:  # 如果没有数据，返回错误
+    if lookback < 200:  # 如果没有数据，返回错误
         raise HTTPException(status_code=400, detail="data too less")
     
     # 预测长度从请求中获取
@@ -94,12 +94,16 @@ async def predict_endpoint(request: PredictRequest):
     last_timestamp = df['timestamps'].iloc[-1]
     
     time_interval = df['timestamps'].iloc[1] - df['timestamps'].iloc[0]
-        
-    y_timestamp = pd.date_range(
+
+    # 生成 DatetimeIndex
+    y_timestamp_index = pd.date_range(
         start=last_timestamp + time_interval,
         periods=pred_len,
         freq=time_interval
     )
+    
+    # 转换为 Series，保持与 x_timestamp 类型一致
+    y_timestamp = pd.Series(y_timestamp_index, name='timestamps')
     
     # 调用预测函数
     pred_df = predictor.predict(
