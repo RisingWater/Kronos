@@ -116,6 +116,9 @@ async def predict_endpoint(request: PredictRequest):
         sample_count=1,
         verbose=True
     )
+
+    # 将 y_timestamp 添加到 pred_df 作为新列
+    pred_df['timestamps'] = y_timestamp.values
     
     # 构建响应
     predictions = []
