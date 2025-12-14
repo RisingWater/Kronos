@@ -78,7 +78,7 @@ async def predict_endpoint(request: PredictRequest):
     # lookback 等于请求中数据的长度
     lookback = len(df)
 
-    if lookback < 200:  # 如果没有数据，返回错误
+    if lookback < 100:  # 如果没有数据，返回错误
         raise HTTPException(status_code=400, detail="data too less")
     
     # 预测长度从请求中获取
